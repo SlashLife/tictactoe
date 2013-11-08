@@ -19,8 +19,12 @@ namespace {
 		// CPU players will get different names
 		static std::ptrdiff_t previous_name_index = num_names; // initialize as "none of those"
 
-		//std::random_device rd;
-		constexpr int rd = 12345; // DEBUG: workaround for Windows: No working implementation of std::random_device available on MinGW w/ G++ 4.7.2
+#ifdef _WIN32
+		// Workaround for Windows: No working implementation of std::random_device available on MinGW w/ G++ 4.7.2
+		constexpr int rd = 12345;
+#else
+		std::random_device rd;
+#endif
 		std::mt19937 gen(rd);
 
 		std::ptrdiff_t random_name_index;

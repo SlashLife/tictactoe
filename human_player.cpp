@@ -34,7 +34,7 @@ void tictactoe::human_player::make_move(game_make_move_interface game) {
 	);
 
 	field::size_type index;
-	while(true && std::cin) {
+	while(std::cin) {
 		try {
 			(std::cout << "\nWhich tile do you want to play? ").flush();
 
