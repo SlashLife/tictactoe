@@ -81,6 +81,9 @@ void tictactoe::computer_player::make_move(game_make_move_interface game) {
 
 	// check move database for next move
 	{
+		assert(game.field().order() == 3 &&
+			"The move database only contains moves for 3x3 playing fields.");
+
 		std::vector<game_make_move_interface> interfaces;
 		interfaces.reserve(8);
 		interfaces.emplace_back(game);
@@ -88,7 +91,12 @@ void tictactoe::computer_player::make_move(game_make_move_interface game) {
 		for(int i=0; i<6; ++i) {
 			interfaces.emplace_back(interfaces[i].rotate());
 		}
-		// interfaces = { orig, orig mir, 90deg, 90deg mir, 180deg, 180deg mir, 270deg, 270deg mir }
+		/* interfaces = {
+			orig, orig mirrored,
+			90deg, 90deg mirrored,
+			180deg, 180deg mirrored,
+			270deg, 270deg mirrored
+		} */
 
 		for(const auto entry : computer_3x3_state_table::data) {
 			if (entry.occupied_tiles != occupied_tiles) {
