@@ -27,12 +27,17 @@ namespace {
 #endif
 		std::mt19937 gen(rd);
 
-		std::ptrdiff_t random_name_index;
-		do {
-			random_name_index = std::uniform_int_distribution<>
-				(0, num_names-1)
-				(gen);
-		} while(previous_name_index == random_name_index);
+		const std::ptrdiff_t max_rand_index =
+			(previous_name_index == num_names)
+				? num_names - 1
+				: num_names - 2; // in this case we shift the index if necessary
+
+		std::ptrdiff_t random_name_index = std::uniform_int_distribution<>
+			(0, max_rand_index)
+			(gen);
+		if (previous_name_index <= random_name_index) {
+			++random_name_index;
+		}
 
 		previous_name_index = random_name_index;
 
